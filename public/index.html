@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type="text"]
+        {
+            width:90%;
+            height:30px;
+            font-size: 20px;
+        }
+        input[type="submit"]
+        {
+            height: 38px;
+            font-size: 20px;
+
+        }
+        .msg h1{
+            display: block;
+            width: 100%;
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+        .msg h2{
+            display: block;
+        }
+        .msgs{
+            margin-bottom: 100px;
+        }
+        .left{
+            float: left;
+            width: 50%;
+            background-color: #233DFF;
+            word-break: break-all;
+            margin:2px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: black;
+        }
+        .right{
+            float: right;
+            margin:2px;
+            width: 50%;
+            height:60px;
+            word-break: break-all;
+            background-color: #233dff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            color: black;
+
+        }
+        .chatDiv{width:100%;display: flex;}
+        .chatDiv img{
+            float: left;
+            border-radius: 50%;
+            object-fit: contain;
+            height:50px;
+            width:50px;
+            margin: 8px 4px;
+        }
+        .chatDiv1{width: 100%; }
+        .chatDiv1 img{
+            float: right;
+            border-radius: 50%;
+            object-fit: contain;
+            height:50px;
+            width:50px;
+            margin: 8px 4px;
+        }
+        .chatDiv2{width: 100%; }
+        .chatDiv2 img{
+            float: right;
+            border-radius: 50%;
+            object-fit: cover;
+            height:50px;
+            width:50px;
+            margin: 8px 4px;
+        }
+        input[type="text"]{
+            width:95%;
+            outline: none;
+            font-size:30px;
+            color:white;
+            background: none;
+            border :0;
+        }
+        
+        .send{
+            width:100%;
+            margin-top:5px;
+            position: fixed;
+            bottom:0;
+            height: 60px;
+            display: flex;
+        }
+        header{
+            width: 100%;
+        }
+        ::-webkit-scrollbar{
+            display: none;
+        }
+        .txt{
+            background-color: #050A30;
+            border:1px solid #5CB6F9;
+            width:93%;
+            margin:5px 0;
+            padding:8px 8px;
+        }
+        a img{
+            height:60px;
+            width:100px;
+            margin-right:5px;   
+            border-radius: 50%;
+            background: #050A30;
+        }
+        button{
+            background: none;
+            border: 0;
+            outline:none;
+        }
+    </style>
+    <script src="./jquery.js"></script>
+</head>
+<body bgcolor="#050A30">
+    <header>
+        <center>
+            <h1 style="color: white;">ChatBot</h1>
+        </center>
+    </header>
+        <br><br>
+        
+        <div class="send">
+            <div class="txt">
+                <input type="text" name="msg" id="msg" placeholder="Type Here ....">
+            </div>
+            <a id="submit">
+                <img src="./imgs/telegram-5945.svg" alt="img not Found" />
+    
+            </a>
+        </div>
+        <div class="msgs" id="chat">
+
+        </div>
+        <br><br>
+        <script>
+            let btn = document.getElementById('submit');
+            const msg = document.getElementById('msg');
+            const chat = document.getElementById('chat');
+            btn.addEventListener('click',()=>{
+                
+             $.ajax({
+                    method:"GET",
+                    url:"/msg/"+msg.value,
+                    cors: true,
+                    contentType: "application/json",
+                    dataType: "json",
+                    secure: true,
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    },
+                    success:function(data)
+                    {
+                        console.log(data);
+                        let div = document.createElement("div");
+                        div.setAttribute("class","chatDiv");
+                        let h1 = document.createElement("h1");
+                        let img = document.createElement("img");
+                        img.setAttribute("src","./imgs/Cute Kitties_330.jpg");
+                        h1.setAttribute('class',"left");
+                        h1.innerHTML = msg.value;
+                        div.appendChild(img);
+                        div.appendChild(h1);
+                        chat.appendChild(div);
+                        console.log(data+"   "+data.length);
+                        if(data.length>=1)
+                        {
+                            let div1 = document.createElement("div");
+                            div1.setAttribute("class","chatDiv1");
+                            div1.setAttribute("id","chatDiv1");
+                            let h2 = document.createElement("h1");
+                            let img = document.createElement("img");
+                            h2.setAttribute('class',"right");
+                            h2.innerHTML =data[0];
+                            img.setAttribute("src","./imgs/Cute Kitties_330.jpg");
+                            div1.appendChild(img);
+                            div1.appendChild(h2);
+                            chat.appendChild(div1);
+
+                        }
+                        else{
+                            let div2 = document.createElement("div");
+                            div2.setAttribute("class","chatDiv2");
+                            let h2 = document.createElement("h1");
+                            let img = document.createElement("img");
+                            img.setAttribute("src","./imgs/Cute Kitties_330.jpg");
+                            
+                            h2.setAttribute('class',"right");
+                            h2.innerHTML ="We will Make It better";
+                            div2.appendChild(img);
+                            div2.appendChild(h2);
+                            chat.appendChild(div2);
+                        }
+                    },
+                    error:function(data)
+                    {
+                        console.log(data);
+                    }
+                })
+            });
+            let divs = document.querySelector('chatdiv1');
+            if(divs != undefined)
+            {
+                divs.getBoundingClientRect();
+                console.log("data is "+divs);
+            }
+        </script>
+
+</body>
+</html>
