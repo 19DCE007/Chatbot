@@ -35,7 +35,7 @@ app.get("/msg/(:msg)",(req,res)=>{
         
         let tokens= []
         token.forEach(element => {
-            tokens.push(natural.PorterStemmer.stem(element.toLowerCase()));
+            tokens.push(element.toLowerCase());
         });
         return tokens;
     }
